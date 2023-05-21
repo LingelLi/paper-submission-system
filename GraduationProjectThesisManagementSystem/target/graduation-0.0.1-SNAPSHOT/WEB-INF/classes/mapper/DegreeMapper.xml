@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lynu.mapper.DegreeMapper">
+    <sql id="Base_Column_List">
+        user_id, graduate_time, graduate_to ,  graduate_to_local,  factory_nature
+        ,  work_nature,  before_education,  bachelor_time ,  bachelor_school,  reward_punish,  apply_reason
+        ,  research , experience , paper_title , paper_type, paper_from, paper_describe, cv_url
+    </sql>
+
+    <insert id="updateDegreeByUserId" parameterType="cn.lynu.model.Degree">
+        insert into Degree(user_id, graduate_time, graduate_to ,  graduate_to_loc,  factory_nature
+                          ,  work_nature,  before_education,  bachelor_time ,  bachelor_school,  reward_punish,  apply_reason
+                          ,  research , experience , paper_title , paper_type, paper_from, paper_describe, cv_url)
+        values (#{user_id,jdbcType=VARCHAR},#{graduate_time,jdbcType=DATE},#{graduate_to,jdbcType=VARCHAR},#{graduate_to_loc,jdbcType=VARCHAR},#{factory_nature,jdbcType=VARCHAR},
+                #{work_nature,jdbcType=VARCHAR},#{before_education,jdbcType=VARCHAR},#{bachelor_time,jdbcType=DATE},#{bachelor_school,jdbcType=VARCHAR},#{reward_punish,jdbcType=VARCHAR},
+                #{apply_reason,jdbcType=VARCHAR},#{research,jdbcType=VARCHAR},#{experience,jdbcType=VARCHAR},#{paper_title,jdbcType=VARCHAR},#{paper_type,jdbcType=VARCHAR},#{paper_from,jdbcType=VARCHAR},#{paper_describe,jdbcType=VARCHAR}
+                   ,#{cv_url,jdbcType=VARCHAR}
+
+                                                                                                                                 )
+    </insert>
+
+    <select id="getDegreeByUserId" resultType="cn.lynu.model.Degree">
+        select graduate_time, graduate_to ,  graduate_to_loc,  factory_nature
+        ,  work_nature,  before_education,  bachelor_time ,  bachelor_school,  reward_punish,  apply_reason
+        ,  research , experience , paper_title , paper_type, paper_from, paper_describe, cv_url
+        from Degree where user_id = #{user_id}
+    </select>
+
+</mapper>

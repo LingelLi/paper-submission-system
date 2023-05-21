@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lynu.mapper.StatusMapper">
+    <sql id="Base_Column_List">
+        user_id, status_code
+    </sql>
+
+
+    <insert id="updateStatusByUserId" parameterType="cn.lynu.model.Status">
+        UPDATE student
+        SET status_code = #{status_code}
+            WHERE user_id=#{user_id}
+
+    </insert>
+
+
+    <select id="getStatusByUserId" resultType="java.lang.String">
+        select status_code
+        from student where user_id = #{user_id}
+    </select>
+
+    <select id="getStuBystatus" resultType="java.lang.String">
+        select user_id
+        from student where status_code = #{status_code}
+    </select>
+
+    <select id="getStudentListByTeacherIdAndStatus" resultType="java.lang.String">
+        select user_id
+        from student where status_code = #{status_code} and teacher_id = #{teacher_id}
+    </select>
+
+</mapper>

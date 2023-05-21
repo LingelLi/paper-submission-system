@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lynu.mapper.ReviewMapper">
+
+  <insert id="insert5" parameterType="cn.lynu.model.Review">
+    insert into review5 (user_id, reviewer, comment
+    )
+    values (#{user_id,jdbcType=VARCHAR}, #{reviewer,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}
+           )
+  </insert>
+
+  <insert id="insert4" parameterType="cn.lynu.model.Review">
+    insert into review4 (user_id, reviewer, score,comment
+    )
+    values (#{user_id,jdbcType=VARCHAR}, #{reviewer,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER},#{comment,jdbcType=VARCHAR}
+           )
+  </insert>
+
+
+  <select id="get4" resultType="map">
+    select score as "score" ,comment as "comment",reviewer as "reviewer" from review4 where user_id = #{user_id}
+  </select>
+
+
+  <insert id="insert1" parameterType="cn.lynu.model.Review">
+    insert into review1 (user_id, reviewer, comment
+      )
+    values (#{user_id,jdbcType=VARCHAR}, #{reviewer,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}
+    )
+  </insert>
+
+
+  <select id="get1" resultType="map">
+  	select comment as "comment",reviewer as "reviewer" from review1 where user_id = #{user_id}
+  </select>
+  <insert id="insert2" parameterType="cn.lynu.model.Review">
+    insert into review2 (user_id, reviewer, comment
+    )
+    values (#{user_id,jdbcType=VARCHAR}, #{reviewer,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}
+           )
+  </insert>
+
+
+  <select id="get2" resultType="map">
+    select comment as "comment",reviewer as "reviewer" from review2 where user_id = #{user_id}
+  </select>
+  <insert id="insert3" parameterType="cn.lynu.model.Review">
+    insert into review3 (user_id, reviewer, comment
+    )
+    values (#{user_id,jdbcType=VARCHAR}, #{reviewer,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}
+           )
+  </insert>
+
+
+  <select id="get3" resultType="map">
+    select comment as "comment",reviewer as "reviewer" from review3 where user_id = #{user_id}
+  </select>
+
+
+
+</mapper>

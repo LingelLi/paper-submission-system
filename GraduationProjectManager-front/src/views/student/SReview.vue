@@ -1,0 +1,145 @@
+<template>
+    <div>
+        <div v-if="status_code == 7 || status_code == 8 || status_code == 9 || status_code == 10">
+            <a-card style="margin-top: 24px" :bordered="false" title="论文复评">
+
+                <div v-if="status_code == 8" style="margin-left: 85px;margin-bottom: 30px; font-size: larger; color:green">论文已提交</div>
+            <div v-if="status_code == 9" style="margin-left: 85px;margin-bottom: 30px; font-size: larger; color:green">复评已通过</div>
+            <div v-if="status_code == 10" style="margin-left: 85px;margin-bottom: 30px; font-size: larger; color:red">复评未通过</div>
+
+            <a-form :model="studentData" :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-form-item label="学号">
+                    <a-input :value="studentData.studentId" disabled></a-input>
+                </a-form-item>
+                <a-form-item label="论文题目（中文）">
+                    <a-input :value="projectData.projectName"  :disabled="status_code != 7"></a-input>
+                </a-form-item>
+                <a-form-item label="论文题目（英文）">
+                    <a-input :value="projectData.projectEngName"  :disabled="status_code != 7"></a-input>
+                </a-form-item>
+                <a-form-item label="论文关键字">
+                    <a-input :value="projectData.projectKeyWords"  :disabled="status_code != 7"></a-input>
+                </a-form-item>
+                <a-form-item label="论文类型">
+                    <a-select :value="projectData.projectType"  :disabled="status_code != 7">
+                        <a-select-option value="0">基础研究</a-select-option>
+                        <a-select-option value="1">应用研究</a-select-option>
+                        <a-select-option value="2">综合研究</a-select-option>
+                    </a-select>
+                </a-form-item>
+                <a-form-item label="论文选题来源">
+                    <a-input :value="projectData.projectFrom"  :disabled="status_code != 7"></a-input>
+                </a-form-item>
+                <a-form-item label="创新点和主要内容">
+                    <a-textarea :value="projectData.projectDescribe" :showCount="true" :autosize="{minRows:5}"  :disabled="status_code != 7"></a-textarea>
+                </a-form-item>
+                <a-form-item label="开题报告">
+                    <a-button type="primary" @click="download">单击下载</a-button>
+                </a-form-item>
+                <a-form-item label="论文上传">
+                    <a-upload-dragger
+                v-model:fileList="fileList"
+                name="file"
+                :multiple="false"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                @change="handleChange"
+                @remove="handleRemove"
+                accept=".doc,.docx,.pdf"
+                :disabled="status_code != 7"
+            >
+            <p class="ant-upload-drag-icon">
+                <inbox-outlined></inbox-outlined>
+            </p>
+            <p class="ant-upload-text">
+                单击上传论文
+            </p>
+            <p class="ant-upload-hint">
+                只支持上传doc、docx或pdf格式的文件
+            </p>
+            </a-upload-dragger>
+                </a-form-item>
+                <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
+                    <a-button type="primary" @click="submit" :disabled="status_code!=7">提交</a-button>
+                </a-form-item>
+            </a-form>
+            </a-card>
+        </div>
+        <div v-if="status_code <= 6 || status_code >= 11">
+            <a-card style="margin-top: 24px" :bordered="false" title="论文复评">
+                您的论文已经通过，无需复评
+            </a-card>
+            
+        </div>
+        
+
+    </div>
+</template>
+
+<script>
+import {
+    requestCurrentStudentData,
+    requestStudentByUserId,
+    requestClassName,
+} from "@/api/student.js";
+import { requestProjectById } from "@/api/project.js";
+export default {
+    name: "SPaperdemo",
+    data() {
+        return {
+            studentData: {
+                studentId: "100001",
+            },
+            studentName: this.$store.state.userInfo.userName,
+            projectData: {
+                projectId: "100001",
+                projectName: "ChatGPT背后的人工智能大模型的技术影响及应用展望",
+                projectEngName: "haha",
+                projectKeyWords: "keyword1,keyword2",
+                projectType: "0",
+                projectFrom: "",
+                projectDescribe: "................."
+            },
+            process: "0",
+            labelCol: {
+                span: 4,
+            },
+            wrapperCol: {
+                span: 14,
+            },
+            fileList: [],
+            status_code: 10,
+        };
+    },
+    created() {
+        // this.getStudentData();
+    },
+    methods: {
+        async getStudentData() {
+            const result = await requestCurrentStudentData();
+            this.studentData = result.data.data;
+            if (
+                (this.studentData.projectId != null) &
+                (this.studentData.projectId !== "")
+            ) {
+                requestProjectById(this.studentData.projectId).then(
+                    (response) => {
+                        this.projectName = response.data.data.projectName;
+                    }
+                );
+            } else {
+                this.projectName = "未选择选题";
+            }
+        },
+        submit() {
+            this.status_code = 8
+            //TODO
+        },
+        download() {
+            //TODO
+        },
+    },
+};
+</script>
+
+<style scoped>
+</style>
